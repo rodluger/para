@@ -5,7 +5,7 @@ from __future__ import division, print_function, absolute_import, unicode_litera
 from hyak import MPI
 
 @MPI
-def stringify(x):
+def stringify(x, pool = None):
   for foo in pool.map(str, x):
     print(foo)
 
