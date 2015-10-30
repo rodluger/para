@@ -5,7 +5,7 @@ from __future__ import division, print_function, absolute_import, unicode_litera
 from hyak import MPI
 import numpy as np
 
-@MPI
+@MPI(debug = True)
 def sqrt(x, pool = None):
   for foo in pool.map(np.sqrt, x):
     print(foo)

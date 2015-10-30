@@ -6,7 +6,9 @@ from .mpi_pool import MPIPool
 from multiprocessing.pool import Pool
 import sys
 
-def MPI(func):
+__all__ = ['MPI', 'MULTI']
+
+def MPI(func, debug = False, loadbalance = False):
   '''
   
   '''
@@ -16,7 +18,7 @@ def MPI(func):
     
     '''
     
-    pool = MPIPool()
+    pool = MPIPool(debug = debug, loadbalance = loadbalance)
     if not pool.is_master():
       pool.wait()
       sys.exit(0)
@@ -25,3 +27,16 @@ def MPI(func):
     pool.close()
   
   return wrapper
+
+def MULTI(func):
+  '''
+  
+  '''
+  
+  def wrapper(*args, **kwargs):
+    '''
+    
+    '''
+    
+    pool = Pool()
+    
