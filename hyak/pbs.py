@@ -24,7 +24,7 @@ PBS_MPI = \
 %(EMAIL)s
 
 cd %(PATH)s
-mpiexec -np $PBS_NP python %(SCRIPT)%(ARGS)
+mpiexec -np $PBS_NP python %(SCRIPT)s%(ARGS)s
 """
 
 def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40, 
