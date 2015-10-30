@@ -3,10 +3,11 @@
 
 from __future__ import division, print_function, absolute_import, unicode_literals
 from hyak import MPI
+import numpy as np
 
 @MPI
-def squareme(x, pool = None):
-  for foo in pool.map(lambda x: x ** 2, x):
+def sqrt(x, pool = None):
+  for foo in pool.map(np.sqrt, x):
     print(foo)
 
-squareme(range(10))
+sqrt(range(10))
