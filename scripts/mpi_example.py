@@ -15,13 +15,17 @@ By default, output is saved in ``mpi_example.py.log``.
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-from hyak import MPI, MULTI
+from hyak import MPI
 import numpy as np
 
 @MPI()
-def sqrt(x, pool = None):
-  for foo in pool.map(np.sqrt, x):
+def sqrt(x, offset, pool = None):
+  for foo in pool.map(np.sqrt, x + offset):
     print(foo)
 
 if __name__ == '__main__':
-  sqrt(range(10))
+  
+  import sys
+  offset = float(sys.argv[1])
+
+  sqrt(range(10), offset)
