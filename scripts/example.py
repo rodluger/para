@@ -4,6 +4,8 @@
 example.py
 ----------
 
+>>> python -c "from hyak import qsub; qsub('example.py', logfile = 'example.log')"
+
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
