@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-from hyak.pools import MPI
+from hyak import MPI
 
 @MPI
-def f(pool):
-  for foo in pool.map(str, range(25)):
+def stringify(x, pool = pool):
+  for foo in pool.map(str, x):
     print(foo)
 
-f()
+stringify(range(25))

@@ -11,7 +11,7 @@ def MPI(func):
   
   '''
   
-  def wrapper():
+  def wrapper(*args, **kwargs):
     '''
     
     '''
@@ -20,7 +20,8 @@ def MPI(func):
     if not pool.is_master():
       pool.wait()
       sys.exit(0)
-    func(pool)
+    kwargs.update({'pool': pool})
+    func(*args, **kwargs)
     pool.close()
   
   return wrapper
