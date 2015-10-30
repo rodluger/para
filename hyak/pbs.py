@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-qsub.py
--------
+pbs.py
+------
 
 Launch a Hyak qsub job.
 
