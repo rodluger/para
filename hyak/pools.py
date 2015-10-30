@@ -16,4 +16,8 @@ def MPI(func):
     pool.wait()
     sys.exit(0)
   
-  func(pool = pool)
+  func(pool)
+
+def f(pool):
+  for foo in pool.map(str, range(25)):
+    print(foo)
