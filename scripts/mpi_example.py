@@ -19,13 +19,9 @@ from hyak import MPI
 import numpy as np
 
 @MPI()
-def sqrt(x, offset, pool = None):
-  for foo in pool.map(np.sqrt, x + offset):
+def sqrt(x, pool = None):
+  for foo in pool.map(np.sqrt, x):
     print(foo)
 
 if __name__ == '__main__':
-  
-  import sys
-  offset = float(sys.argv[1])
-
-  sqrt(range(10), offset)
+  sqrt(range(10))
