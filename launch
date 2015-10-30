@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+'''
+launch
+------
+
+'''
+
+from __future__ import division, print_function, absolute_import, unicode_literals
+from hyak import qsub
+import argparse
+import os
+
+if __name__ == '__main__':
+
+  # Parse args
+  parser = argparse.ArgumentParser()
+  parser.add_argument("script", help = "name of Python script to execute", type = str)
+  parser.add_argument("-p", "--path", default = os.cwd(), help = 'Full path to Python script', type = str)
+  parser.add_argument("-n", "--nodes", default = 2, help = 'Number of compute nodes to use', type = int)
+  parser.add_argument("-c", "--ppn", default = 12, help = 'Number of processors (cores) per node', type = int)
+  parser.add_argument("-m", "--mem", default = 40, help = 'Total memory to allocate in GB', type = int)
+  parser.add_argument("-w", "--walltime", default = 12, help = 'Total walltime in hours', type = float)
+  parser.add_argument("-o", "--stdout", default = None, help = 'Name of stdout file', type = str)
+  parser.add_argument("-e", "--stderr", default = None, help = 'Name of stderr file', type = str)
+  parser.add_argument("-M", "--email", default = None, help = 'E-mail to send job notifications to', type = str)
+  parser.add_argument("-a", "--args", nargs = '*', default = None, help = 'List of arguments to pass to your script', type = str)
+  parser.add_argument("-l", "--logfile", default = None, help = 'Name of log file', type = str)
+  args = parser.parse_args()
+  
+  # Run QSUB
+  qsub(args.script, path = args.path, nodes = args.nodes, ppn = args.ppn, mem = args.mem,
+       hours = args.walltime, stdout = args.stdout, stderr = args.stderr, email = args.email,
+       args = args.args, logfile = args.logfile)

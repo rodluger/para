@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-example.py
-----------
+mpi_example.py
+--------------
 
->>> python -c "from hyak import qsub; qsub('example.py', logfile = 'example.log')"
+This example is meant to be called from a PBS script. It calculates
+and prints the square roots of all integers from 0 to 99.
+
+>>> launch mpi_example.py -l mpi_example.log
 
 '''
 
