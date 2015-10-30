@@ -8,25 +8,32 @@ import sys
 
 __all__ = ['MPI', 'MULTI']
 
-def MPI(func, debug = False, loadbalance = False):
+def MPI(debug = False, loadbalance = False):
   '''
   
   '''
   
-  def wrapper(*args, **kwargs):
+  def decorator(func):
     '''
     
     '''
     
-    pool = MPIPool(debug = debug, loadbalance = loadbalance)
-    if not pool.is_master():
-      pool.wait()
-      sys.exit(0)
-    kwargs.update({'pool': pool})
-    func(*args, **kwargs)
-    pool.close()
+    def wrapper(*args, **kwargs):
+      '''
   
-  return wrapper
+      '''
+  
+      pool = MPIPool(debug = debug, loadbalance = loadbalance)
+      if not pool.is_master():
+        pool.wait()
+        sys.exit(0)
+      kwargs.update({'pool': pool})
+      func(*args, **kwargs)
+      pool.close()
+  
+    return wrapper
+
+  return decorator  
 
 def MULTI(func):
   '''
