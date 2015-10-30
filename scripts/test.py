@@ -4,9 +4,9 @@
 from __future__ import division, print_function, absolute_import, unicode_literals
 from hyak.pools import MPI
 
+@MPI
 def f(pool):
   for foo in pool.map(str, range(25)):
     print(foo)
 
-fmpi = MPI(f)
-fmpi()
+f()
