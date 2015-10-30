@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from __future__ import division, print_function, absolute_import, unicode_literals
+import os
+import sys
+import subprocess
+
+if __name__ == '__main__':
+  
+  # Check if mpi4py is installed
+  try:
+    import mpi4py
+  except ImportError:
+    print("Uh-oh, doesn't look like you have \x1b[01mmpi4py\x1b[39;49;00m installed. You'll have to install it for \x1b[01mhyak\x1b[39;49;00m to work properly.")
+    
+  # Get home directory
+  home = os.path.expanduser('~')
+
+  # Command we're adding to the user profile
+  path = os.path.dirname(os.path.realpath(__file__))
+  cmd = '\n\n# Added by HYAK 0.0.1 setup script\nexport PATH=%s:$PATH\nexport PYTHONPATH=${PYTHONPATH}:%s' % (path, path)
+
+  # Setup success?
+  success = False
+
+  for file in [foo for foo in ['.bash_profile', '.profile', '.bashrc'] if foo in os.listdir(home)]:
+  
+    with open(os.path.join(home, file), 'r') as f:
+      contents = f.read()
+  
+    # Check if the path is already there  
+    if cmd in contents:
+      success = True
+      break
+  
+    # We're going to add it
+    else:
+      with open(os.path.join(home, file), 'a') as f:
+        print(cmd, file = f)
+      success = True
+        
+  if success == False:
+    print("Error adding \x1b[01mhyak\x1b[39;49;00m to your PATH.")
+    print("You will have to manually add `%s` to both your PATH and PYTHONPATH environment variables." % path)
+  else:
+    print("Installation complete. You may need to restart your terminal for these changes to take effect.")
