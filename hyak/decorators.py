@@ -8,7 +8,7 @@ import sys
 
 __all__ = ['MPI', 'MULTI']
 
-def MPI(**pool_kwargs):
+def MPI(debug = False):
   '''
   A function decorator that enables MPI parallelization. This
   decorator endows the function with a ``pool`` instance (passed
@@ -31,7 +31,7 @@ def MPI(**pool_kwargs):
       '''
       
       # Set up the MPI pool
-      pool = MPIPool(**pool_kwargs)
+      pool = MPIPool(debug = debug)
       
       # If this is a child process, wait for instructions from master
       if not pool.is_master():
