@@ -16,7 +16,7 @@ if __name__ == '__main__':
   # Parse args
   parser = argparse.ArgumentParser()
   parser.add_argument("script", help = "name of Python script to execute", type = str)
-  parser.add_argument("-p", "--path", default = os.cwd(), help = 'Full path to Python script', type = str)
+  parser.add_argument("-p", "--path", default = os.getcwd(), help = 'Full path to Python script', type = str)
   parser.add_argument("-n", "--nodes", default = 2, help = 'Number of compute nodes to use', type = int)
   parser.add_argument("-c", "--ppn", default = 12, help = 'Number of processors (cores) per node', type = int)
   parser.add_argument("-m", "--mem", default = 40, help = 'Total memory to allocate in GB', type = int)
