@@ -8,4 +8,5 @@ def f(pool):
   for foo in pool.map(str, range(25)):
     print(foo)
 
-MPI(f)
+fmpi = MPI(f)
+fmpi()

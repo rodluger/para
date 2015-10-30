@@ -11,11 +11,16 @@ def MPI(func):
   
   '''
   
-  pool = MPIPool()
-  if not pool.is_master():
-    pool.wait()
-    sys.exit(0)
+  def wrapper():
+    '''
+    
+    '''
+    
+    pool = MPIPool()
+    if not pool.is_master():
+      pool.wait()
+      sys.exit(0)
+    func(pool)
+    pool.close()
   
-  func(pool)
-  
-  pool.close()
+  return wrapper
