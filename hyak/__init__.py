@@ -3,4 +3,4 @@
 
 from __future__ import division, print_function, absolute_import, unicode_literals
 
-from .decorators import MPI
+from .decorators import MPI, MULTI
