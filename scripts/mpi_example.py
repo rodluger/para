@@ -4,10 +4,13 @@
 mpi_example.py
 --------------
 
-This example is meant to be called from a PBS script. It calculates
-and prints the square roots of all integers from 0 to 99.
+This example calculates and prints the square root of all
+integers between 0 and 9 using MPI parallelization on Hyak.
+Just run
 
->>> launch mpi_example.py -l mpi_example.log
+>>> launch mpi_example.py
+
+By default, output is saved in ``mpi_example.py.log``.
 
 '''
 
@@ -21,4 +24,4 @@ def sqrt(x, pool = None):
     print(foo)
 
 if __name__ == '__main__':
-  sqrt(range(100))
+  sqrt(range(10))
