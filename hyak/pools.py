@@ -17,3 +17,5 @@ def MPI(func):
     sys.exit(0)
   
   func(pool)
+  
+  pool.close()
