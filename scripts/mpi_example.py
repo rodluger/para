@@ -15,7 +15,7 @@ By default, output is saved in ``mpi_example.py.log``.
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-from hyak import MPI
+from para import MPI
 import numpy as np
 
 @MPI()
