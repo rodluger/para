@@ -24,7 +24,7 @@ to run the same job using ``MPI`` parallelization with ``mpiexec``. This will ge
 using ``para`` in your project
 ==============================
 
-If you want to parallelize a certain part of your code with ``MPI``, you should have a script that looks something like this::
+If you want to parallelize a certain part of your code with ``MPI``, you should have a script that looks something like this
 
 .. code-block:: python
 
