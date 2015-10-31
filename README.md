@@ -1,2 +1,2 @@
-# hyak
-Easy parallelization for UW's Hyak cluster
+# para
+Easy ``MPI`` parallelization for ``Python`` jobs
