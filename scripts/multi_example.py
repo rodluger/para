@@ -13,7 +13,7 @@ parallelization. Just run
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-from hyak import MULTI
+from para import MULTI
 import numpy as np
 
 @MULTI()
