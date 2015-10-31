@@ -4,24 +4,28 @@
 mpi_example.py
 --------------
 
-This example calculates and prints the square root of all
-integers between 0 and 9 using MPI parallelization on Hyak.
-Just run
+This example returns the value of the quadratic equation
 
->>> launch mpi_example.py
+  y = ax^2 + bx + c
+
+for a range of values of ``x`` using ``MPI`` 
+parallelization. Simply run
+
+>>> launch multi_example.py
 
 By default, output is saved in ``mpi_example.py.log``.
 
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-from para import MPI
+from para import mpi
 import numpy as np
 
-@MPI()
-def sqrt(x, pool = None):
-  for foo in pool.map(np.sqrt, x):
-    print(foo)
+def quadratic(x, a, b, c):
+  '''
+  The function we're parallelizing
+  
+  '''
+  return a * x ** 2 + b * x + c
 
-if __name__ == '__main__':
-  sqrt(range(10))
+print(mpi(quadratic, np.arange(10), args = (1, 1, 1), kwargs = {}))

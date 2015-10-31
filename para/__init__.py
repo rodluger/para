@@ -4,6 +4,7 @@
 from __future__ import division, print_function, absolute_import, unicode_literals
 
 from .decorators import MPI, MULTI
+from .wrappers import mpi, multi
 from .pbs import qsub
 
 # Info
