@@ -7,7 +7,7 @@ para
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-from hyak import qsub
+from para import qsub
 import argparse
 import os
 
