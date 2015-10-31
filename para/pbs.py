@@ -22,14 +22,14 @@ PBS_MPI = \
 %(STDOUT)s
 %(STDERR)s
 %(EMAIL)s
-
+%(CMDS)s
 cd %(PATH)s
 mpiexec -np $PBS_NP python %(SCRIPT)s%(ARGS)s
 """
 
 def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40, 
          hours = 1., stdout = None, stderr = None, email = None, 
-         args = None, logfile = None):
+         args = None, logfile = None, cmds = None):
   '''
   
   '''
@@ -55,11 +55,14 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
     args = ''
   if logfile is not None:
     args = args + ' &> ' + logfile
+  if cmds is None:
+    cmds = ''
   
   with open('script.pbs', 'w') as f:
     contents = PBS_MPI % {'NODES': nodes, 'PPN': ppn, 'MEM': mem, 'WALLTIME': walltime,
                           'STDOUT': stdout, 'STDERR': stderr, 'EMAIL': email, 
-                          'SCRIPT': script, 'ARGS': args, 'PATH': path}
+                          'SCRIPT': script, 'ARGS': args, 'PATH': path,
+                          'CMDS': cmds}
     print(contents, file = f)
   
   try:

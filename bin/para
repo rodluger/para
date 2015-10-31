@@ -16,9 +16,9 @@ if __name__ == '__main__':
   # Parse args
   parser = argparse.ArgumentParser()
   parser.add_argument("script", help = "name of Python script to execute", type = str)
-  parser.add_argument("-p", "--path", default = os.getcwd(), help = 'Full path to Python script', type = str)
+  parser.add_argument("-P", "--path", default = os.getcwd(), help = 'Full path to Python script', type = str)
   parser.add_argument("-n", "--nodes", default = 2, help = 'Number of compute nodes to use', type = int)
-  parser.add_argument("-c", "--ppn", default = 12, help = 'Number of processors (cores) per node', type = int)
+  parser.add_argument("-p", "--ppn", default = 12, help = 'Number of processors per node', type = int)
   parser.add_argument("-m", "--mem", default = 40, help = 'Total memory to allocate in GB', type = int)
   parser.add_argument("-w", "--walltime", default = 1, help = 'Total walltime in hours', type = float)
   parser.add_argument("-o", "--stdout", default = '/dev/null', help = 'Name of stdout file', type = str)
@@ -26,6 +26,7 @@ if __name__ == '__main__':
   parser.add_argument("-M", "--email", default = None, help = 'E-mail to send job notifications to', type = str)
   parser.add_argument("-a", "--args", nargs = '*', default = None, help = 'List of arguments to pass to your script', type = str)
   parser.add_argument("-l", "--logfile", default = '<script>.log', help = 'Name of log file', type = str)
+  parser.add_argument("-c", "--commands", default = None, help = 'Additional commands in the PBS script', type = str)
   args = parser.parse_args()
   
   if args.logfile == '<script>.log':
@@ -34,4 +35,4 @@ if __name__ == '__main__':
   # Run QSUB
   qsub(args.script, path = args.path, nodes = args.nodes, ppn = args.ppn, mem = args.mem,
        hours = args.walltime, stdout = args.stdout, stderr = args.stderr, email = args.email,
-       args = args.args, logfile = args.logfile)
+       args = args.args, logfile = args.logfile, cmds = args.cmds)
