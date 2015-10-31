@@ -24,34 +24,40 @@ to run the same job using ``MPI`` parallelization with ``mpiexec``. This will ge
 using ``para`` in your project
 ==============================
 
-If you want to parallelize a certain part of your code with ``MPI``, you should have a script that looks something like this
+If you want to parallelize a certain part of your code with ``MPI``, you should have a script that looks something like this:
 
 .. code-block:: python
 
-    # MPI is a decorator that endows a function with a ``pool`` kwarg
-    
     from para import MPI
+    
+    # MPI is a decorator that endows a function with a ``pool`` kwarg
     
     def do_something(x)
     
-        # Do some expensive calculation here.
+        # Do some expensive calculation here. This is your main
+        # workhorse that you want to parallelize.
         
         return y
     
     @MPI()
     def my_function(xlist, pool = None):
-    
-        # The ``MPI`` decorator gives ``my_function()`` access to a ``pool``
-        # kwarg. Here we send off each element in ``xlist`` individually 
-        # as an argument to ``do_something()``, which is called in parallel
+        
+        # This function is essentially a wrapper around ``do_something()``
+        # and calls it several times in parallel.
+        # Note that the ``MPI`` decorator gives ``my_function()`` access to a 
+        # ``pool`` kwarg. Here we send off each element in ``xlist`` individually 
+        # as an argument to ``do_something()``.
         
         for y in pool.map(do_something, xlist):
         
             # We're just going to print each result to the screen here
+            
             print(y)
 
     if __name__ == '__main__':
     
-        # Here we simply call ``my_function()`` if this file is run as a script
+        # Here we simply call ``my_function()`` when this file is run as a script
+        # We're giving it the list ``[0, 1, 2, 3, 4, 5]`` as an argument; the
+        # function ``do_something()`` will be called in parallel, once per argument
         
-        my_function()
+        my_function([0, 1, 2, 3, 4, 5])
