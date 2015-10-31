@@ -1,24 +1,22 @@
-#!/usr/bin/env para
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-mpi_example.py
---------------
+multi_example.py
+----------------
 
 This example calculates and prints the square root of all
-integers between 0 and 9 using MPI parallelization on Hyak.
-Just run
+integers between 0 and 9 using ``multiprocessing`` 
+parallelization. Just run
 
->>> launch mpi_example.py
-
-By default, output is saved in ``mpi_example.py.log``.
+>>> python multi_example.py
 
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-from hyak import MPI
+from hyak import MULTI
 import numpy as np
 
-@MPI()
+@MULTI()
 def sqrt(x, pool = None):
   for foo in pool.map(np.sqrt, x):
     print(foo)

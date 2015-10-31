@@ -31,7 +31,12 @@ def MPI(**pool_kwargs):
       '''
       
       # Set up the MPI pool
-      pool = MPIPool(**pool_kwargs)
+      try:
+        pool = MPIPool(**pool_kwargs)
+      except ImportError:
+        raise ImportError("MPI requires the mpi4py package. Please install it first.")
+      except ValueError:
+        raise Exception("Looks like there's only one MPI process available. Try using the ``launch`` command.")
       
       # If this is a child process, wait for instructions from master
       if not pool.is_master():

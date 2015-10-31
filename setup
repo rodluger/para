@@ -12,14 +12,15 @@ if __name__ == '__main__':
   try:
     import mpi4py
   except ImportError:
-    print("Uh-oh, doesn't look like you have \x1b[01mmpi4py\x1b[39;49;00m installed. You'll have to install it for \x1b[01mhyak\x1b[39;49;00m to work properly.")
+    print("Uh-oh, doesn't look like you have \x1b[01mmpi4py\x1b[39;49;00m installed. You'll have to install it for \x1b[01mpara\x1b[39;49;00m to work properly.")
     
   # Get home directory
   home = os.path.expanduser('~')
 
   # Command we're adding to the user profile
   path = os.path.dirname(os.path.realpath(__file__))
-  cmd = '\n\n# Added by HYAK 0.0.1 setup script\nexport PATH=%s:$PATH\nexport PYTHONPATH=${PYTHONPATH}:%s' % (path, path)
+  binpath = os.path.join(path, 'bin')
+  cmd = '\n\n# Added by PARA 0.0.1 setup script\nexport PATH=%s:$PATH\nexport PYTHONPATH=${PYTHONPATH}:%s' % (binpath, path)
 
   # Setup success?
   success = False
@@ -41,7 +42,7 @@ if __name__ == '__main__':
       success = True
         
   if success == False:
-    print("Error adding \x1b[01mhyak\x1b[39;49;00m to your PATH.")
-    print("You will have to manually add `%s` to both your PATH and PYTHONPATH environment variables." % path)
+    print("Error adding \x1b[01mpara\x1b[39;49;00m to your PATH.")
+    print("You will have to manually add `%s` to your PATH and `%s` to your PYTHONPATH." % (binpath, path))
   else:
     print("Installation complete. You may need to restart your terminal for these changes to take effect.")

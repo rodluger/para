@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-launch
-------
+para
+----
 
 '''
 
@@ -21,8 +21,8 @@ if __name__ == '__main__':
   parser.add_argument("-c", "--ppn", default = 12, help = 'Number of processors (cores) per node', type = int)
   parser.add_argument("-m", "--mem", default = 40, help = 'Total memory to allocate in GB', type = int)
   parser.add_argument("-w", "--walltime", default = 1, help = 'Total walltime in hours', type = float)
-  parser.add_argument("-o", "--stdout", default = None, help = 'Name of stdout file', type = str)
-  parser.add_argument("-e", "--stderr", default = None, help = 'Name of stderr file', type = str)
+  parser.add_argument("-o", "--stdout", default = '/dev/null', help = 'Name of stdout file', type = str)
+  parser.add_argument("-e", "--stderr", default = '/dev/null', help = 'Name of stderr file', type = str)
   parser.add_argument("-M", "--email", default = None, help = 'E-mail to send job notifications to', type = str)
   parser.add_argument("-a", "--args", nargs = '*', default = None, help = 'List of arguments to pass to your script', type = str)
   parser.add_argument("-l", "--logfile", default = '<script>.log', help = 'Name of log file', type = str)

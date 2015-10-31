@@ -4,7 +4,7 @@
 pbs.py
 ------
 
-Launch a Hyak qsub job.
+Generates a ``PBS`` script and launches a ``qsub`` job on a cluster.
 
 '''
 
@@ -61,5 +61,8 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
                           'STDOUT': stdout, 'STDERR': stderr, 'EMAIL': email, 
                           'SCRIPT': script, 'ARGS': args, 'PATH': path}
     print(contents, file = f)
-    
-  subprocess.call(['qsub', 'script.pbs'])
+  
+  try:
+    subprocess.call(['qsub', 'script.pbs'])
+  except FileNotFoundError:
+    raise Exception("Unable to launch the script using qsub.")
