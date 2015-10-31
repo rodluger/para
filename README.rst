@@ -26,6 +26,8 @@ using ``para`` in your project
 
 If you want to parallelize a certain part of your code with ``MPI``, you should have a script that looks something like this::
 
+.. code-block:: python
+
     # MPI is a decorator that endows a function with a ``pool`` kwarg
     
     from para import MPI
