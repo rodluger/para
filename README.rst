@@ -61,3 +61,9 @@ If you want to parallelize a certain part of your code with ``MPI``, you should 
         # function ``do_something()`` will be called in parallel, once per argument
         
         my_function([0, 1, 2, 3, 4, 5])
+
+On a computer cluster, simply call::
+
+    para script.py
+
+to submit a job to the queue. You can specify the number of nodes, the walltime, and several other PBS arguments. Just run ``para -h`` to see the complete list.
