@@ -11,7 +11,7 @@ This example returns the value of the quadratic equation
 for a range of values of ``x`` using ``MPI``
 parallelization. Simply run
 
->>> launch multi_example.py
+>>> para multi_example.py
 
 By default, output is saved in ``mpi_example.py.log``.
 
