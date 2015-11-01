@@ -35,4 +35,4 @@ def quadratic(x, a, b, c):
   '''
   return a * x ** 2 + b * x + c
 
-print(para.map(quadratic, np.arange(100), args = (1, 1, 1), kwargs = {}, debug = True))
+print(para.map(quadratic, np.arange(100), args = (1, 1, 1), kwargs = {}))
