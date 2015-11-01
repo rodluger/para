@@ -46,8 +46,7 @@ def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   if not pool.is_master():
     pool.wait()
     sys.exit(0)
-    
-  pool = Pool(**pool_kwargs)  
+      
   w = wrap(f, args, kwargs)  
   res = list(getattr(pool, method)(w, x))
   pool.close()
