@@ -25,7 +25,11 @@ printed to a log file in the same directory.
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-import para
+try:
+  from para import map
+except:
+  # If ``para`` isn't installed, we'll just use the built-in ``map`` function
+  pass
 import numpy as np
 
 def quadratic(x, a, b, c):
@@ -35,4 +39,5 @@ def quadratic(x, a, b, c):
   '''
   return a * x ** 2 + b * x + c
 
-print(para.map(quadratic, np.arange(100), args = (1, 1, 1), kwargs = {}))
+for res in map(quadratic, np.arange(100), args = (1, 1, 1), kwargs = {}):
+  print(res)

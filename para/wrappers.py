@@ -27,7 +27,7 @@ def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   
   pool = Pool(**pool_kwargs) 
   w = wrap(f, args, kwargs)  
-  return list(getattr(pool, method)(w, x))
+  return getattr(pool, method)(w, x)
 
 def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
@@ -48,7 +48,7 @@ def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
     sys.exit(0)
       
   w = wrap(f, args, kwargs)  
-  res = list(getattr(pool, method)(w, x))
+  res = getattr(pool, method)(w, x)
   pool.close()
   
   return res
