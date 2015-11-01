@@ -20,16 +20,16 @@ class wrap(object):
   def __call__(self, x):
     return self.f(x, *self.args, **self.kwargs)
     
-def multi(f, x, args = (), kwargs = {}, **pool_kwargs):
+def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
   
   '''
   
-  pool = Pool(**pool_kwargs)  
+  pool = Pool(**pool_kwargs) 
   w = wrap(f, args, kwargs)  
-  return list(pool.map(w, x))
+  return list(getattr(pool, method)(w, x))
 
-def mpi(f, x, args = (), kwargs = {}, **pool_kwargs):
+def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
   
   '''
@@ -49,7 +49,7 @@ def mpi(f, x, args = (), kwargs = {}, **pool_kwargs):
     
   pool = Pool(**pool_kwargs)  
   w = wrap(f, args, kwargs)  
-  res = list(pool.map(w, x))
+  res = list(getattr(pool, method)(w, x))
   pool.close()
   
   return res

@@ -8,7 +8,7 @@ This example returns the value of the quadratic equation
 
   y = ax^2 + bx + c
 
-for a range of values of ``x`` using ``MPI`` 
+for a range of values of ``x`` using ``MPI``
 parallelization. Simply run
 
 >>> launch multi_example.py

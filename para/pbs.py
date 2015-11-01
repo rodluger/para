@@ -18,6 +18,7 @@ __all__ = ['qsub']
 PBS_MPI = \
 """
 #!/bin/sh
+%(NAME)s
 #PBS -l nodes=%(NODES)d:ppn=%(PPN)d,feature=%(PPN)dcore,mem=%(MEM)dgb,walltime=%(WALLTIME)s
 %(STDOUT)s
 %(STDERR)s
@@ -29,13 +30,17 @@ mpiexec -np $PBS_NP python %(SCRIPT)s%(ARGS)s
 
 def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40, 
          hours = 1., stdout = None, stderr = None, email = None, 
-         args = None, logfile = None, cmds = None):
+         args = None, logfile = None, cmds = None, name = None):
   '''
   
   '''
   
   if path is None:
     path = os.getcwd()
+  if name is not None:
+    name = "#PBS -n %s" % name
+  else:
+    name = ''
   walltime = time.strftime('%H:%M:%S', time.gmtime(hours * 3600.))
   if stdout is not None:
     stdout = "#PBS -o %s" % stdout
@@ -62,7 +67,7 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
     contents = PBS_MPI % {'NODES': nodes, 'PPN': ppn, 'MEM': mem, 'WALLTIME': walltime,
                           'STDOUT': stdout, 'STDERR': stderr, 'EMAIL': email, 
                           'SCRIPT': script, 'ARGS': args, 'PATH': path,
-                          'CMDS': cmds}
+                          'CMDS': cmds, 'NAME': name}
     print(contents, file = f)
   
   try:
