@@ -40,7 +40,7 @@ def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   except ImportError:
     raise ImportError("MPI requires the mpi4py package. Please install it first.")
   except ValueError:
-    raise Exception("Looks like there's only one MPI process available. Try using the ``launch`` command.")
+    raise Exception("Looks like there's only one MPI process available. Did you use the \x1b[01mpara\x1b[39;49;00m command to run your script?")
   
   # If this is a child process, wait for instructions from master
   if not pool.is_master():
