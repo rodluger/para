@@ -6,7 +6,7 @@ Easy parallelization for ``Python`` jobs.
 installation
 ============
 
-Clone the repository and run ``./setup``. This will check if you have ``mpi4py`` installed -- this package is required for ``MPI`` parallelization on a cluster. It will also attempt to update your ``PATH`` and ``PYTHONPATH`` variables in ``~/.profile``, ``~/.bash_profile``, or ``~/.bash_rc``.
+Clone the repository and run ``./setup``. This will check if you have ``mpi4py`` installed -- this package is required for ``MPI`` parallelization on a cluster. It will also attempt to update your ``PATH`` and ``PYTHONPATH`` variables in ``~/.profile``, ``~/.bash_profile``, or ``~/.bashrc``.
 
 examples
 ========
