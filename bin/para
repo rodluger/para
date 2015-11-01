@@ -36,4 +36,4 @@ if __name__ == '__main__':
   # Run QSUB
   qsub(args.script, path = args.path, nodes = args.nodes, ppn = args.ppn, mem = args.mem,
        hours = args.walltime, stdout = args.stdout, stderr = args.stderr, email = args.email,
-       args = args.args, logfile = args.logfile, cmds = args.cmds, name = args.name)
+       args = args.args, logfile = args.logfile, cmds = args.commands, name = args.name)
