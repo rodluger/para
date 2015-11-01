@@ -28,42 +28,26 @@ If you want to parallelize a certain part of your code with ``MPI``, you should 
 
 .. code-block:: python
 
-    from para import MPI
+    from para import mpi
     
-    # MPI is a decorator that endows a function with a ``pool`` kwarg
-    
-    def do_something(x)
-    
-        # Do some expensive calculation here. This is your main
-        # workhorse that you want to parallelize.
+    def func(x, *args, **kwargs):
+        '''
+        The function you wish to parallelize
+  
+        '''
+        
+        # Do some lengthy calculation
         
         return y
     
-    @MPI()
-    def my_function(xlist, pool = None):
-        
-        # This function is essentially a wrapper around ``do_something()``
-        # and calls it several times in parallel.
-        # Note that the ``MPI`` decorator gives ``my_function()`` access to a 
-        # ``pool`` kwarg. Here we send off each element in ``xlist`` individually 
-        # as an argument to ``do_something()``.
-        
-        for y in pool.map(do_something, xlist):
-        
-            # We're just going to print each result to the screen here
-            
-            print(y)
-
-    if __name__ == '__main__':
+    # Call ``func()`` in parallel, once for each element in ``xlist``
+    # and store the results in the list ``res``. The options ``args``
+    # and ``kwargs`` are any arguments/keywords to be passed to ``func``
     
-        # Here we simply call ``my_function()`` when this file is run as a script
-        # We're giving it the list ``[0, 1, 2, 3, 4, 5]`` as an argument; the
-        # function ``do_something()`` will be called in parallel, once per argument
-        
-        my_function([0, 1, 2, 3, 4, 5])
+    res = mpi(func, xlist, args = (), kwargs = {}))
 
 On a computer cluster, simply call::
 
     para script.py
 
-to submit a job to the queue. You can specify the number of nodes, the walltime, and several other PBS arguments. Just run ``para -h`` to see the complete list.
+to submit your job to the queue. You can specify the number of nodes, the walltime, and several other PBS arguments. Just run ``para -h`` to see the complete list.
