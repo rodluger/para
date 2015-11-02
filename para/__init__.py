@@ -3,7 +3,7 @@
 
 from __future__ import division, print_function, absolute_import, unicode_literals
 
-from .wrappers import mpi, multi, map
+from .wrappers import mpi, multi, map, Pool
 from .pbs import qsub
 
 # Info

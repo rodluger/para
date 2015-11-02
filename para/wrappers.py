@@ -3,10 +3,10 @@
 
 from __future__ import division, print_function, absolute_import, unicode_literals
 from .mpi_pool import MPIPool
-from multiprocessing.pool import Pool
+from multiprocessing.pool import Pool as MultiPool
 import sys
 
-__all__ = ['multi', 'mpi', 'map']
+__all__ = ['multi', 'mpi', 'map', 'Pool']
 
 class wrap(object):
   '''
@@ -25,7 +25,7 @@ def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   
   '''
   
-  pool = Pool(**pool_kwargs) 
+  pool = MultiPool(**pool_kwargs) 
   w = wrap(f, args, kwargs)  
   return getattr(pool, method)(w, x)
 
@@ -53,12 +53,36 @@ def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   
   return res
 
-def map(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
+def map(f, x, args = (), kwargs = {}, **pool_kwargs):
   '''
   
   '''
   
   try:
-    return mpi(f, x, args = args, kwargs = kwargs, method = method, **pool_kwargs)
+    return mpi(f, x, args = args, kwargs = kwargs, method = 'map', **pool_kwargs)
   except (ImportError, ValueError):
-    return multi(f, x, args = args, kwargs = kwargs, method = method, **pool_kwargs)
+    return multi(f, x, args = args, kwargs = kwargs, method = 'map', **pool_kwargs)
+
+class Pool(object):
+  '''
+  
+  '''
+  def __init__(self, **pool_kwargs):
+    try:
+      self._pool = MPIPool(**pool_kwargs)
+      if not self._pool.is_master():
+        self._pool.wait()
+        sys.exit(0)
+    except (ImportError, ValueError):
+      self._pool = MultiPool(**pool_kwargs)
+  
+  def map(self, f, x, args = (), kwargs = {}): 
+    '''
+    
+    '''
+    w = wrap(f, args, kwargs)  
+    return self._pool.map(w, x)
+  
+  def close(self):
+    self._pool.close()
+    
