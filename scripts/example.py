@@ -33,7 +33,15 @@ def quadratic(x, a, b, c):
   The function we're parallelizing
   
   '''
+  
+  print("[BEGIN JOB %d]" % x)
+  
+  for i in range(10**8):
+    j = i
+  
+  print("[END JOB %d]" % x)
+  
   return a * x ** 2 + b * x + c
 
-for res in para.map(quadratic, np.arange(100), args = (1, 1, 1), kwargs = {}):
+for res in para.map(quadratic, np.arange(20), args = (1, 1, 1), kwargs = {}):
   print(res)
