@@ -68,13 +68,18 @@ class Pool(object):
   
   '''
   def __init__(self, **pool_kwargs):
+  
     try:
       self._pool = MPIPool(**pool_kwargs)
+      self.MPI = True
+    except (ImportError, ValueError):
+      self._pool = MultiPool(**pool_kwargs)
+      self.MPI = False
+    
+    if self.MPI:
       if not self._pool.is_master():
         self._pool.wait()
         sys.exit(0)
-    except (ImportError, ValueError):
-      self._pool = MultiPool(**pool_kwargs)
   
   def map(self, f, x, args = (), kwargs = {}): 
     '''
