@@ -12,7 +12,7 @@ class wrap(object):
   '''
   
   '''
-  def __init__(self, f, args, kwargs):
+  def __init__(self, f, *args, **kwargs):
     self.f = f
     self.args = args
     self.kwargs = kwargs
@@ -80,8 +80,11 @@ class Pool(object):
     '''
     
     '''
-    w = wrap(f, args, kwargs)  
-    return self._pool.map(w, x)
+    if len(args) or len(kwargs):
+      w = wrap(f, *args, **kwargs)  
+      return self._pool.map(w, x)
+    else:
+      return self._pool.map(f, x)
   
   def close(self):
     self._pool.close()
