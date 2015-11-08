@@ -36,20 +36,16 @@ if __name__ == '__main__':
   
   # Override settings with those in logfile
   if args.input is not None:
-  
-    # TODO!!!
-    raise Exception("Input files not currently supported.")
-  
     import imp
     try:
       inp = imp.load_source("input", args.input) 
     except:
       raise IOError("Please provide a valid input file!")
-    impdict = dict(imp.__dict__)
-    for key in imp.__dict__:
+    inpdict = dict(inp.__dict__)
+    for key in inp.__dict__.keys():
       if key not in valid:
-        impdict.pop(key)
-    args.__dict__.update(impdict)
+        inpdict.pop(key)
+    args.__dict__.update(inpdict)
   
   if args.logfile == '<script>.log':
     args.logfile = args.script + '.log'
