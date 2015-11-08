@@ -14,8 +14,8 @@ import os
 if __name__ == '__main__':
 
   # Parse args
-  valid = ['path', 'nodes', 'name', 'ppn', 'mem', 'walltime', 'stdout', 
-           'stderr', 'email', 'args', 'logfile', 'commands']
+  valid = ['nodes', 'name', 'ppn', 'mem', 'walltime', 'stdout', 
+           'stderr', 'email', 'logfile', 'commands']
   
   parser = argparse.ArgumentParser()
   parser.add_argument("script", help = "name of Python script to execute", type = str)
