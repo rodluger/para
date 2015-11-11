@@ -35,7 +35,12 @@ class wrap(object):
     self.kwargs = kwargs
   
   def __call__(self, x):
-    return self.f(x, *self.args, **self.kwargs)
+    if len(self.args) and len(self.kwargs):
+      return self.f(x, *self.args, **self.kwargs)
+    elif len(self.args) and not len(self.kwargs):
+      return self.f(x, *self.args)
+    else:
+      return self.f(x)
     
 def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
