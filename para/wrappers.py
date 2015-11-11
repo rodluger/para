@@ -4,9 +4,23 @@
 from __future__ import division, print_function, absolute_import, unicode_literals
 from .mpi_pool import MPIPool
 from multiprocessing.pool import Pool as MultiPool
+import inspect
 import sys
 
 __all__ = ['multi', 'mpi', 'map', 'Pool']
+
+def KwargsCheck(f, kwargs):
+  '''
+  
+  '''
+  
+  kw = dict(kwargs)
+  argspec = inspect.getargspec(f)
+  if not argspec.keywords:
+      for key in kw.keys():
+          if key not in argspec.args:
+              del kw[key]
+  return kw
 
 class wrap(object):
   '''
@@ -25,7 +39,7 @@ def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   
   '''
   
-  pool = MultiPool(**pool_kwargs) 
+  pool = MultiPool(**KwargsCheck(MultiPool, pool_kwargs)) 
   w = wrap(f, args, kwargs)  
   return getattr(pool, method)(w, x)
 
@@ -36,7 +50,7 @@ def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   
   # Try to create the pool
   try:
-    pool = MPIPool(**pool_kwargs)
+    pool = MPIPool(**KwargsCheck(MPIPool, pool_kwargs))
   except ImportError:
     raise ImportError("MPI requires the mpi4py package. Please install it first.")
   except ValueError:
@@ -70,10 +84,12 @@ class Pool(object):
   def __init__(self, **pool_kwargs):
   
     try:
-      self._pool = MPIPool(**pool_kwargs)
+      kw = KwargsCheck(MPIPool, pool_kwargs)
+      self._pool = MPIPool(**kw)
       self.MPI = True
     except (ImportError, ValueError):
-      self._pool = MultiPool(**pool_kwargs)
+      kw = KwargsCheck(MultiPool, pool_kwargs)
+      self._pool = MultiPool(**kw)
       self.MPI = False
     
     if self.MPI:
