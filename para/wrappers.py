@@ -18,7 +18,7 @@ def KwargsCheck(f, kwargs):
   try:
     argspec = inspect.getargspec(f)
   except TypeError:
-    argspect = inspect.getargspec(f.__init__)
+    argspec = inspect.getargspec(f.__init__)
   if not argspec.keywords:
       for key in kw.keys():
           if key not in argspec.args:
