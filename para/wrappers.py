@@ -115,16 +115,6 @@ class Pool(object):
     else:
       return self._pool.map(f, x)
   
-  def imap_unordered(self, f, x, args = (), kwargs = {}): 
-    '''
-    
-    '''
-    if len(args) or len(kwargs):
-      w = wrap(f, *args, **kwargs)  
-      return self._pool.imap_unordered(w, x)
-    else:
-      return self._pool.imap_unordered(f, x)
-  
   def close(self):
     self._pool.close()
     
