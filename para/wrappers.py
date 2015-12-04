@@ -33,14 +33,9 @@ class wrap(object):
     self.f = f
     self.args = args
     self.kwargs = kwargs
-  
+
   def __call__(self, x):
-    if len(self.args) and len(self.kwargs):
-      return self.f(x, *self.args, **self.kwargs)
-    elif len(self.args) and not len(self.kwargs):
-      return self.f(x, *self.args)
-    else:
-      return self.f(x)
+    return self.f(x, *self.args, **self.kwargs)
     
 def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
@@ -48,7 +43,7 @@ def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
   
   pool = MultiPool(**KwargsCheck(MultiPool, pool_kwargs)) 
-  w = wrap(f, args, kwargs)  
+  w = wrap(f, *args, **kwargs)  
   return getattr(pool, method)(w, x)
 
 def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
@@ -69,7 +64,7 @@ def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
     pool.wait()
     sys.exit(0)
       
-  w = wrap(f, args, kwargs)  
+  w = wrap(f, *args, **kwargs)  
   res = getattr(pool, method)(w, x)
   pool.close()
   
