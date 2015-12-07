@@ -28,20 +28,24 @@ from __future__ import division, print_function, absolute_import, unicode_litera
 import para
 import numpy as np
 
-def quadratic(x, a, b, c):
+def quadratic(x, a, b, c, quiet = True):
   '''
   The function we're parallelizing
   
   '''
   
-  print("[BEGIN JOB %d]" % x)
+  if not quiet:
+    print("[BEGIN JOB %d]" % x)
   
-  for i in range(10**8):
+  # Let's pretend we're doing an expensive calculation
+  # and waste some time...
+  for i in range(10**7):
     j = i
   
-  print("[END JOB %d]" % x)
+  if not quiet:
+    print("[END JOB %d]" % x)
   
   return a * x ** 2 + b * x + c
 
-for res in para.map(quadratic, np.arange(50), args = (1, 1, 1), kwargs = {}):
+for res in para.call(quadratic, np.arange(50), args = (1, 1, 1), kwargs = {'quiet': True}):
   print(res)

@@ -44,7 +44,7 @@ If you want to parallelize a certain part of your code, you should have a script
     # and store the results in the list ``res``. The options ``args``
     # and ``kwargs`` are any arguments/keywords to be passed to ``func``
     
-    for res in para.map(func, xlist, args = (), kwargs = {})):
+    for res in para.call(func, xlist, args = (), kwargs = {})):
       print(res)
 
 To run on a single node using ``multiprocessing``, execute the script with ``python``. Or, to run on multiple nodes with ``MPI``, execute the script with the ``mpi`` command. In the latter case, you can specify the number of nodes, the walltime, and several other PBS arguments. Just run ``mpi -h`` to see the complete list.
@@ -52,4 +52,4 @@ To run on a single node using ``multiprocessing``, execute the script with ``pyt
 using ``para`` with ``emcee``
 =============================
 
-Since ``emcee`` maps each walker's position vector to your likelihood function once per step in the chain, you don't want all the overhead that comes with creating a new pool object every time you call ``para.map``. Instead, you should use the ``para.Pool`` object. See ``scripts/mcmc.py`` for an example.
+Since ``emcee`` maps each walker's position vector to your likelihood function once per step in the chain, you don't want all the overhead that comes with creating a new pool object every time you call ``para.call``. Instead, you should use the ``para.Pool`` object. See ``scripts/mcmc.py`` for an example.

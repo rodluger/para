@@ -9,8 +9,24 @@ import sys
 
 __all__ = ['multi', 'mpi', 'map', 'Pool']
 
-def KwargsCheck(f, kwargs):
+class Wrap(object):
   '''
+  Wrapper around an arbitrary function that stores *args and **kwargs
+  and permits the function to be called with a single argument (the first one).
+  
+  '''
+  def __init__(self, f, *args, **kwargs):
+    self.f = f
+    self.args = args
+    self.kwargs = kwargs
+
+  def __call__(self, x):
+    return self.f(x, *self.args, **self.kwargs)
+
+def FilterKwargs(f, kwargs):
+  '''
+  Removes and entries from the dict ``kwargs`` that are not
+  permitted keyword arguments to callable ``f``.
   
   '''
   
@@ -24,36 +40,28 @@ def KwargsCheck(f, kwargs):
           if key not in argspec.args:
               del kw[key]
   return kw
-
-class wrap(object):
-  '''
-  
-  '''
-  def __init__(self, f, *args, **kwargs):
-    self.f = f
-    self.args = args
-    self.kwargs = kwargs
-
-  def __call__(self, x):
-    return self.f(x, *self.args, **self.kwargs)
     
 def multi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
+  Applies the ``map`` method in a ``multiprocessing`` pool instance to the
+  callable ``f`` with input list ``x``.
   
   '''
   
-  pool = MultiPool(**KwargsCheck(MultiPool, pool_kwargs)) 
-  w = wrap(f, *args, **kwargs)  
+  pool = MultiPool(**FilterKwargs(MultiPool, pool_kwargs)) 
+  w = Wrap(f, *args, **kwargs)  
   return getattr(pool, method)(w, x)
 
 def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
   '''
+  Applies the ``map`` method in an ``MPI`` pool instance to the
+  callable ``f`` with input list ``x``.
   
   '''
   
   # Try to create the pool
   try:
-    pool = MPIPool(**KwargsCheck(MPIPool, pool_kwargs))
+    pool = MPIPool(**FilterKwargs(MPIPool, pool_kwargs))
   except ImportError:
     raise ImportError("MPI requires the mpi4py package. Please install it first.")
   except ValueError:
@@ -64,14 +72,15 @@ def mpi(f, x, args = (), kwargs = {}, method = 'map', **pool_kwargs):
     pool.wait()
     sys.exit(0)
       
-  w = wrap(f, *args, **kwargs)  
+  w = Wrap(f, *args, **kwargs)  
   res = getattr(pool, method)(w, x)
   pool.close()
   
   return res
 
-def map(f, x, args = (), kwargs = {}, **pool_kwargs):
+def call(f, x, args = (), kwargs = {}, **pool_kwargs):
   '''
+  Invokes ``mpi`` or ``multi`` depending on whether or not an MPI environment is available.
   
   '''
   
@@ -82,17 +91,18 @@ def map(f, x, args = (), kwargs = {}, **pool_kwargs):
 
 class Pool(object):
   '''
+  A wrapper around ``Pool`` objects in ``multiprocessing`` and ``mpi4py``. As of now,
+  this class has a single method, ``map``, which invokes the corresponding method in
+  either the ``multiprocessing`` or ``mpi4py`` pool objects.
   
   '''
   def __init__(self, **pool_kwargs):
   
     try:
-      kw = KwargsCheck(MPIPool, pool_kwargs)
-      self._pool = MPIPool(**kw)
+      self._pool = MPIPool(**FilterKwargs(MPIPool, pool_kwargs))
       self.MPI = True
     except (ImportError, ValueError):
-      kw = KwargsCheck(MultiPool, pool_kwargs)
-      self._pool = MultiPool(**kw)
+      self._pool = MultiPool(**FilterKwargs(MultiPool, pool_kwargs))
       self.MPI = False
     
     if self.MPI:
@@ -105,7 +115,7 @@ class Pool(object):
     
     '''
     if len(args) or len(kwargs):
-      w = wrap(f, *args, **kwargs)  
+      w = Wrap(f, *args, **kwargs)  
       return self._pool.map(w, x)
     else:
       return self._pool.map(f, x)
