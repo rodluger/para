@@ -12,6 +12,7 @@ from __future__ import division, print_function, absolute_import, unicode_litera
 import time
 import os
 import subprocess
+import re
 
 __all__ = ['qsub']
 
@@ -63,7 +64,14 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
   if cmds is None:
     cmds = ''
   
-  with open('script.pbs', 'w') as f:
+  # Get the next available script file name
+  numbers = [int(re.search('script([0-9]{5}).pbs', f).groups()[0]) for f in os.listdir() if re.search('script([0-9]{5}).pbs', f)]
+  if len(numbers):
+    pbsfile = 'script%05d.pbs' % (max(numbers) + 1)
+  else:
+    pbsfile = 'script00000.pbs'
+  
+  with open(pbsfile, 'w') as f:
     contents = PBS_MPI % {'NODES': nodes, 'PPN': ppn, 'MEM': mem, 'WALLTIME': walltime,
                           'STDOUT': stdout, 'STDERR': stderr, 'EMAIL': email, 
                           'SCRIPT': script, 'ARGS': args, 'PATH': path,
@@ -71,6 +79,6 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
     print(contents, file = f)
   
   try:
-    subprocess.call(['qsub', 'script.pbs'])
+    subprocess.call(['qsub', pbsfile])
   except FileNotFoundError:
     raise Exception("Unable to launch the script using qsub.")
