@@ -28,7 +28,7 @@ if __name__ == '__main__':
   parser.add_argument("-o", "--stdout", default = '/dev/null', help = 'Name of stdout file', type = str)
   parser.add_argument("-e", "--stderr", default = '/dev/null', help = 'Name of stderr file', type = str)
   parser.add_argument("-M", "--email", default = None, help = 'E-mail to send job notifications to', type = str)
-  parser.add_argument("-a", "--args", nargs = '*', default = None, help = 'List of arguments to pass to your script', type = str)
+  parser.add_argument("-a", "--args", nargs = '*', default = None, help = 'List of arguments to pass to your script (in quotes)', type = str)
   parser.add_argument("-l", "--logfile", default = '<script>.log', help = 'Name of log file', type = str)
   parser.add_argument("-c", "--commands", default = None, help = 'Additional commands to place in the PBS script', type = str)
   args = parser.parse_args()
