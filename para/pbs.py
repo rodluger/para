@@ -65,7 +65,7 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
     cmds = ''
   
   # Get the next available script file name
-  numbers = [int(re.search('script([0-9]{5}).pbs', f).groups()[0]) for f in os.listdir() if re.search('script([0-9]{5}).pbs', f)]
+  numbers = [int(re.search('script([0-9]{5}).pbs', f).groups()[0]) for f in os.listdir('.') if re.search('script([0-9]{5}).pbs', f)]
   if len(numbers):
     pbsfile = 'script%05d.pbs' % (max(numbers) + 1)
   else:
