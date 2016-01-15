@@ -35,7 +35,7 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
   '''
   
   '''
-  
+
   if path is None:
     path = os.getcwd()
   if name is not None:

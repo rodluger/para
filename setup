@@ -45,4 +45,5 @@ if __name__ == '__main__':
     print("Error adding \x1b[01mpara\x1b[39;49;00m to your PATH.")
     print("You will have to manually add `%s` to your PATH and `%s` to your PYTHONPATH." % (binpath, path))
   else:
-    print("Installation complete. You may need to restart your terminal for these changes to take effect.")
+    print("The path to PARA was added to %s." % file)
+    print("You will need to restart your terminal for these changes to take effect.")

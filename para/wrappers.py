@@ -25,7 +25,7 @@ class Wrap(object):
 
 def FilterKwargs(f, kwargs):
   '''
-  Removes and entries from the dict ``kwargs`` that are not
+  Removes any entries from the dict ``kwargs`` that are not
   permitted keyword arguments to callable ``f``.
   
   '''

@@ -10,13 +10,11 @@ from __future__ import division, print_function, absolute_import, unicode_litera
 from para import qsub
 import argparse
 import os
+import sys
 
 if __name__ == '__main__':
 
-  # Parse args
-  valid = ['nodes', 'name', 'ppn', 'mem', 'walltime', 'stdout', 
-           'stderr', 'email', 'logfile', 'commands']
-  
+  # Parse args  
   parser = argparse.ArgumentParser()
   parser.add_argument("script", help = "name of Python script to execute", type = str)
   parser.add_argument("-P", "--path", default = os.getcwd(), help = 'Full path to Python script', type = str)
@@ -28,9 +26,10 @@ if __name__ == '__main__':
   parser.add_argument("-o", "--stdout", default = '/dev/null', help = 'Name of stdout file', type = str)
   parser.add_argument("-e", "--stderr", default = '/dev/null', help = 'Name of stderr file', type = str)
   parser.add_argument("-M", "--email", default = None, help = 'E-mail to send job notifications to', type = str)
-  parser.add_argument("-a", "--args", nargs = '*', default = None, help = 'List of arguments to pass to your script (in quotes)', type = str)
+  parser.add_argument("-a", "--args", default = None, help = 'List of arguments to pass to your script (in quotes)')
   parser.add_argument("-l", "--logfile", default = '<script>.log', help = 'Name of log file', type = str)
   parser.add_argument("-c", "--commands", default = None, help = 'Additional commands to place in the PBS script', type = str)
+  
   args = parser.parse_args()
   
   if args.logfile == '<script>.log':
