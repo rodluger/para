@@ -9,7 +9,6 @@ Generates a ``PBS`` script and launches a ``qsub`` job on a cluster.
 '''
 
 from __future__ import division, print_function, absolute_import, unicode_literals
-import time
 import os
 import subprocess
 import re
@@ -29,6 +28,16 @@ cd %(PATH)s
 mpiexec -np $PBS_NP python %(SCRIPT)s%(ARGS)s
 """
 
+def StrTime(hours):
+  '''
+  
+  '''
+  seconds = int(hours * 3600)
+  minutes, seconds = divmod(seconds, 60)
+  hours, minutes = divmod(minutes, 60)
+  days, hours = divmod(hours, 24)
+  return '%02d:%02d:%02d:%02d' % (days, hours, minutes, seconds)
+  
 def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40, 
          hours = 1., stdout = None, stderr = None, email = None, 
          args = None, logfile = None, cmds = None, name = None):
@@ -42,7 +51,7 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
     name = "#PBS -n %s" % name
   else:
     name = ''
-  walltime = time.strftime('%H:%M:%S', time.gmtime(hours * 3600.))
+  walltime = StrTime(hours)
   if stdout is not None:
     stdout = "#PBS -o %s" % stdout
   else:
