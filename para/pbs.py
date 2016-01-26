@@ -52,14 +52,18 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
   else:
     name = ''
   walltime = StrTime(hours)
-  if stdout is not None:
-    stdout = "#PBS -o %s" % stdout
-  else:
-    stdout = ''
-  if stderr is not None:
-    stderr = "#PBS -e %s" % stderr
-  else:
+  if stdout is not None and stdout == stderr:
+    stdout = "#PBS -j oe\n#PBS -o %s" % stdout
     stderr = ''
+  else:
+    if stdout is not None:
+      stdout = "#PBS -o %s" % stdout
+    else:
+      stdout = ''
+    if stderr is not None:
+      stderr = "#PBS -e %s" % stderr
+    else:
+      stderr = ''
   if email is not None:
     email = "#PBS -M %s\n#PBS -m abe" % email
   else:
