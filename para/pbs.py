@@ -73,7 +73,7 @@ def qsub(script, path = None, nodes = 2, ppn = 12, mem = 40,
   else:
     args = ''
   if logfile is not None:
-    args = args + ' &> ' + logfile
+    args = args + '>>' + logfile + ' 2>&1'
   if cmds is None:
     cmds = ''
   
