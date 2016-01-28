@@ -107,7 +107,12 @@ class Pool(object):
     
     if self.MPI:
       if not self._pool.is_master():
-        self._pool.wait()
+        
+        try:
+          self._pool.wait()
+        except Exception as e:
+          self._pool.kill(e)
+          
         sys.exit(0)
   
   def map(self, f, x, args = (), kwargs = {}): 
