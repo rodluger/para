@@ -232,8 +232,12 @@ class MPIPool(object):
             for itask in range(ntask):
                 status = MPI.Status()
                 # Receive input from workers.
-                result = self.comm.recv(source=MPI.ANY_SOURCE,
-                                        tag=MPI.ANY_TAG, status=status)
+                try:
+                  result = self.comm.recv(source=MPI.ANY_SOURCE,
+                                          tag=MPI.ANY_TAG, status=status)
+                except Exception as e:
+                  self.close()
+                  raise e
                 
                 # Kill the pool if an exception was raised
                 if isinstance(task, _kill_pool_message):
