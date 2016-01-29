@@ -125,6 +125,9 @@ class Pool(object):
     else:
       return self._pool.map(f, x)
   
+  def size(self):
+    return self._pool.size
+  
   def close(self):
     self._pool.close()
     
