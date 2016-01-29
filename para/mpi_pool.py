@@ -115,7 +115,7 @@ class MPIPool(object):
               
             if self.debug:
               log.debug("Worker {0} got task {1} with tag {2}."
-                        .format(self.rank, task, status.tag))
+                        .format(self.rank, type(task), status.tag))
 
             # Check if message is special sentinel signaling end.
             # If so, stop.
@@ -138,7 +138,7 @@ class MPIPool(object):
             result = self.function(task)
             if self.debug:
               log.debug("Worker {0} sending answer {1} with tag {2}."
-                        .format(self.rank, result, status.tag))
+                        .format(self.rank, type(result), status.tag))
             self.comm.isend(result, dest=0, tag=status.tag)
 
     def map(self, function, tasks):
@@ -189,7 +189,7 @@ class MPIPool(object):
                 worker = i % self.size + 1
                 if self.debug:
                   log.debug("Sent task {0} to worker {1} with tag {2}."
-                            .format(task, worker, i))
+                            .format(type(task), worker, i))
                 r = self.comm.isend(task, dest=worker, tag=i)
                 requests.append(r)
 
@@ -222,7 +222,7 @@ class MPIPool(object):
                 worker = i+1
                 if self.debug:
                   log.debug("Sent task {0} to worker {1} with tag {2}."
-                            .format(task, worker, i))
+                            .format(type(task), worker, i))
                 # Send out the tasks asynchronously.
                 self.comm.isend(task, dest=worker, tag=i)
 
@@ -257,7 +257,7 @@ class MPIPool(object):
                     i = ntasks_dispatched
                     if self.debug:
                       log.debug("Sent task {0} to worker {1} with tag {2}."
-                                .format(task, worker, i))
+                                .format(type(task), worker, i))
                     # Send out the tasks asynchronously.
                     self.comm.isend(task, dest=worker, tag=i)
                     ntasks_dispatched += 1
